@@ -1,5 +1,5 @@
 /**
- * Entry point for usable-canvas-userscript
+ * Entry point for usable-transcript
  */
 
 import { checkContext } from "./lib/CanvasSetup";
@@ -10,7 +10,7 @@ const context = checkContext();
 let app = null;
 
 // should the app be added to the current page?
-const SHOW_PAGES = ["modules", "rubrics"];
+const SHOW_PAGES = ["pages", "modules"];
 if (SHOW_PAGES.includes(context["currentPage"])) {
   // Insert the app somewhere on the page
 
@@ -22,7 +22,7 @@ if (SHOW_PAGES.includes(context["currentPage"])) {
 
   // Figure out where on the page you want the app to appear
   const div = document.createElement("div");
-  div.className = "usable-canvas-userscript";
+  div.className = "usable-transcript";
   div.style.display = "flex";
   rightOfCrumbs.appendChild(div);
 

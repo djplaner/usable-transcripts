@@ -1,40 +1,11 @@
-# usable-canvas-userscript
+# usable-transcripts
 
 :construction: Very much under construction. Not ready for use. :construction:
 
-Template build for developing mods to Instructure's Canvas LMS using Svelte
+:question: Equity requirements in higher education make the provision of transcripts from videos important. Current processes for generating those transcripts are less the ideal and somewhat onerous. Something this important should be simpler and better.
 
-Based on [canvas-collections](https://github.com/djplaner/canvas-collections) in turn based on [tampermonkey-svelte](https://github.com/lpshanley/tampermonkey-svelte#readme) this template aims to provide a usable build method for developing Javascript modifications to the [Canvas LMS](https://canvaslms.instructure.com/lp/lms/).
+🎯 Produce a usable method for providing transcripts for videos from as many sources as possible.
 
-The template seeks to provide
-
-1. Quick and painless developer experience.
-2. Support for both production modifications that can be adopted both
-   1. Institutionally using [Canvas theme editor](https://community.canvaslms.com/t5/Admin-Guide/How-do-I-create-a-theme-for-an-account-using-the-Theme-Editor/ta-p/242) and hence available to anyone using that Canvas instance.
-   2. Individually as a [userscript](https://en.wikipedia.org/wiki/Userscript) with [TamperMonkey](https://www.tampermonkey.net/) or similar and hence enabling initial testing and individual adoption. 
-
-## Template features 
-
-- npm as the package management
-- rollup as the bundler
-- Local development using Chrome
-- [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) for documentation
-
-## Template structure
-
-- `dev`
-- `dist`
-- `docs`
-- `src`
-- `meta.js`
-- `mkdocs.yml`
-- `package.json`
-- `README.md`
-- `rollup.build.config.js`
-- `rollup.config.js`
-- `tsconfig.json`
-
-## Template usage
 
 ### Getting started
 

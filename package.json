@@ -1,9 +1,9 @@
 {
-  "name": "usable-canvas-userscript",
+  "name": "usable-transcripts",
   "version": "0.0.1-alpha",
-  "description": "Making building Canvas extensions esier",
+  "description": "Exploration into providing usable transcripts",
   "author": "David Jones",
-  "homepage": "https://github.com/djplaner/usable-canvas-userscript#readme",
+  "homepage": "https://github.com/djplaner/usable-transcripts#readme",
   "directories": {
     "doc": "docs"
   },
@@ -34,5 +34,6 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
+    "frazy-parser": "^2.9.1"
   }
 }

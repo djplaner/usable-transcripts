@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { configStore  } from "./stores";
+  import { configStore } from "./stores";
+  import { parseSubs } from "frazy-parser";
 
   export let courseId: number;
   export let editMode: boolean;
@@ -13,13 +14,36 @@
     currentPage: currentPage,
   };
 
+  let files;
+  let content;
+  let phrases;
+
+  function processFiles() {
+    console.log("---- hello");
+    for (const file of files) {
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        content = reader.result;
+        phrases = parseSubs(content);
+        console.log(phrases);
+      };
+    }
+  }
 </script>
 
-<p class="hello">Hello world, on the {$configStore.currentPage}</p>
+<label for="subFile">Upload Subtitles</label>
+<input
+  type="file"
+  id="subsFile"
+  accept=".vtt"
+  bind:files
+  on:change={processFiles}
+/>
+
+{#if files}
+  {content}
+{/if}
 
 <style>
-  .hello {
-    background-color: black;
-    color: white;
-  }
 </style>

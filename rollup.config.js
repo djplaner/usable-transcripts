@@ -18,7 +18,7 @@ export default {
 		sourcemap: false,
 		format: 'iife',
 		name: 'app',
-		file: 'dev/usable-canvas-userscript.js'
+		file: 'dev/usable-transcripts.js'
 	},
 	plugins: [
 
@@ -33,7 +33,7 @@ export default {
 		}),
 
 		css({
-			output: 'usable-canvas-userscript.css'
+			output: 'usable-transcripts.css'
 		}),
 /* - only if you want shoelace style
 		copy({
