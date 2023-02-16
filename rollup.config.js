@@ -35,7 +35,6 @@ export default {
 		css({
 			output: 'usable-transcripts.css'
 		}),
-/* - only if you want shoelace style
 		copy({
 			copyOnce: true,
 			targets: [
@@ -44,7 +43,7 @@ export default {
 					dest: path.resolve(__dirname, 'dist/shoelace')
 				}
 			]
-		}), */
+		}), 
 
 		// rollup-plugin-tampermonkey-css
 		((options = {}) => ({

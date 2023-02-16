@@ -75,6 +75,7 @@ export default [
 			file: 'dist/usable-transcripts.user.js'
 		},
 		plugins: [
+			resolve(),
 
 			svelte({
 				preprocess: sveltePreprocess({
