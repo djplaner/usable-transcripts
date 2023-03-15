@@ -9,9 +9,10 @@ import App from "./App.svelte";
 const context = checkContext();
 let app = null;
 
+
 // should the app be added to the current page?
-const SHOW_PAGES = ["pages", "modules"];
-if (SHOW_PAGES.includes(context["currentPage"])) {
+const SHOW_OBJECTS = ["pages", "modules"];
+if (SHOW_OBJECTS.includes(context["currentObject"])) {
   // Insert the app somewhere on the page
 
   // insert the app as the first content of div.right-of-crumbs
@@ -19,6 +20,7 @@ if (SHOW_PAGES.includes(context["currentPage"])) {
   if (!rightOfCrumbs) {
     throw new Error("div.right-of-crumbs not found");
   }
+
 
   // Figure out where on the page you want the app to appear
   const div = document.createElement("div");

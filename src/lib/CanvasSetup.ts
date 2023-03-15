@@ -15,14 +15,16 @@ export function checkContext(): object {
   let context : {
     editMode: boolean, // true, iff the "Student View" button is showing
     courseId: number, // Canvas course id
-    // name of the Canvas course page we're on
+    // name of the Canvas course "object" we're on
     // e.g. "modules", "assignments", "pages", "files", "people", "settings"
-    currentPage: string,
+    currentObject: string,
+    currentDetail: string,  // rest (if any) object detail (name of the page etc)
     csrfToken: string,  // cross-site request forgery token
   } = {
     editMode:  false,    
     courseId: null,     
-    currentPage: null,
+    currentObject: null,   // 
+    currentDetail: null,
     csrfToken: null
   };
 
@@ -56,10 +58,12 @@ export function checkContext(): object {
   }
 
   // extract from URL https://<hostname>/courses/<courseId>/<currentPage>
-  let regEx = new RegExp(`courses/${context.courseId}/(.*)(/*|#*|#[^/]+)$`);
+//  let regEx = new RegExp(`courses/${context.courseId}/(.*)(/*|#*|#[^/]+)$`);
+  let regEx = new RegExp(`.*/courses/14405/([^/]*)(.*)$`);
   const matches = documentUrl.match(regEx)
   if (matches) {
-    context.currentPage = matches[1];
+    context.currentObject = matches[1];
+    context.currentDetail = matches[2];
   }
 
   // editMode true iff a#easy_student_view exists
