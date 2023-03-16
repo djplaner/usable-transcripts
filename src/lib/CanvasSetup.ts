@@ -59,7 +59,7 @@ export function checkContext(): object {
 
   // extract from URL https://<hostname>/courses/<courseId>/<currentPage>
 //  let regEx = new RegExp(`courses/${context.courseId}/(.*)(/*|#*|#[^/]+)$`);
-  let regEx = new RegExp(`.*/courses/14405/([^/]*)(.*)$`);
+  let regEx = new RegExp(`.*/courses/[0-9]+/([^/]*)(.*)$`);
   const matches = documentUrl.match(regEx)
   if (matches) {
     context.currentObject = matches[1];

@@ -21,7 +21,6 @@ if (SHOW_OBJECTS.includes(context["currentObject"])) {
     throw new Error("div.right-of-crumbs not found");
   }
 
-
   // Figure out where on the page you want the app to appear
   const div = document.createElement("div");
   div.className = "usable-transcript";
@@ -30,7 +29,13 @@ if (SHOW_OBJECTS.includes(context["currentObject"])) {
 
   app = new App({
     target: div,
-    props: context,
+    props: { 
+      editMode: context["editMode"],
+      courseId: context["courseId"],
+      currentObject: context["currentObject"],
+      currentDetail: context["currentDetail"],
+      csrfToken: context["csrfToken"]
+    },
   });
 
   // make sure we tidy up
