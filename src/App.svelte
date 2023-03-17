@@ -3,7 +3,6 @@
 
   import TranscriptFormatter from "./components/TranscriptFormatter.svelte";
 
-
   export let courseId: number;
   export let editMode: boolean;
   export let csrfToken: string;
@@ -15,13 +14,11 @@
     editMode: editMode,
     csrfToken: csrfToken,
     currentObject: currentObject,
-    currentDetail: currentDetail
+    currentDetail: currentDetail,
   };
 
   let files;
   let captions = null;
-  let phrases;
-  let transcript;
 
   /**
    * @function processFiles
@@ -32,14 +29,26 @@
    * - export to word doc or some such?
    */
   function processFiles() {
-    for (const file of files) {
-      const reader = new FileReader();
-      reader.readAsText(file);
-      reader.onload = () => {
-        captions = reader.result;
-        // set phrases to the parsed subs data structure
-      };
-    }
+
+    // need to be able to reset the file input 
+    // - loading the same filename will cause an error otherwise
+    const fileInput = document.getElementById("subsFile");
+
+    // only reading the first file TODO
+    let file = files[0];
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onerror = (file) => {
+      console.log(`reading error for ${file} - ${reader.error}`);
+    };
+    reader.onload = () => {
+      captions = reader.result;
+      //console.log(`Captions: ${captions}`)
+    };
+    // reset everything
+    files = [];
+    file = null;
+    fileInput.value = "";
   }
 </script>
 
@@ -50,13 +59,13 @@
     id="subsFile"
     accept=".vtt, .srt"
     bind:files
-    on:change={processFiles}
+    on:change|preventDefault={() => processFiles()}
   />
   <label for="subsFile">🇨‌🇨‌ &gt; transcript</label>
 </div>
 
 {#if captions}
-  <TranscriptFormatter {captions} />
+  <TranscriptFormatter bind:captions />
 {/if}
 
 <!-- <sl-drawer label="transcript" class="drawer-overview">
