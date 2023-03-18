@@ -27,6 +27,7 @@ if (SHOW_OBJECTS.includes(context["currentObject"])) {
   div.style.display = "flex";
   rightOfCrumbs.appendChild(div);
 
+
   app = new App({
     target: div,
     props: { 
@@ -43,5 +44,6 @@ if (SHOW_OBJECTS.includes(context["currentObject"])) {
     app.$destroy();
   });
 }
+
 
 export default app;

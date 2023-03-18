@@ -27,25 +27,40 @@ export function parseCaptions(captions) {
 /**
  * @function convertToTranscript
  * @param {Array} phrases - array of phrases from the captions file
+ * @param {Number} paragraphPause - the number of milliseconds to pause for a new paragraph
+ * @param {Boolean} fullstop - whether a para should only end when last non-white space char is
+ *    full stop, exclamation mark etc.
  * @returns {String} transcript - HTML version of transcript with paragraphs given by pauses
  * phrase objects now contain pause
  */
 
-export function convertToTranscript(phrases, paragraphPause = 0) {
+export function convertToTranscript(
+  phrases,
+  paragraphPause = 0,
+  fullstop = false
+) {
   let transcript = "<p>";
 
   phrases.forEach((phrase) => {
     // loop thu any body elements
     let phraseText = "";
+    let endSentenceRegEx = new RegExp("[\\.!\\?]\\s*$", "sm");
+    // combine all the phrase's body into one string
     phrase.body.forEach((body) => {
       // add the text to the transcript
       phraseText += body.text + " ";
     });
-    if (phrase.pause > paragraphPause) {
-      transcript += "</p><p>";
+
+    if (
+      phrase.pause > paragraphPause &&
+      (!fullstop || (fullstop && endSentenceRegEx.test(phraseText)))
+    ) {
+      transcript += `${phraseText}</p><p>`;
+    } else {
+      transcript += phraseText;
     }
-    transcript += phraseText;
   });
+  transcript += "</p>";
   return transcript;
 }
 
@@ -61,6 +76,7 @@ export function convertToTranscript(phrases, paragraphPause = 0) {
 function calculatePauseDurations(phrases) {
   // TODO pauseDurations largely used for debugging/dev - to be removed
   let pauseDurations = [];
+  phrases[0].pause = 0;
   for (let i = 0; i < phrases.length; i++) {
     let phrase = phrases[i];
     let nextPhrase = phrases[i + 1];
@@ -71,7 +87,6 @@ function calculatePauseDurations(phrases) {
     }
   }
   console.log(phrases);
-  console.log(pauseDurations);
 }
 
 /**
@@ -123,9 +138,9 @@ async function saveDocumentToFile(doc, fileName) {
   //Packer.toBlob(doc)
 
   const docblob = await Packer.toBlob(doc);
-  console.log("blob generated")
+  console.log("blob generated");
   console.log(docblob);
-/*  Packer.toBase64String(doc)
+  /*  Packer.toBase64String(doc)
     .then((blob) => {
       console.log("generated blob");
       const docblob = blob.slice(0, blob.size, mimeType);
@@ -136,5 +151,4 @@ async function saveDocumentToFile(doc, fileName) {
     .catch((err) => {
       console.log(`some error - ${err}`);
     }); */
-	console.log("Packaer has been called")
 }

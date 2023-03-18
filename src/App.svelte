@@ -43,12 +43,11 @@
     };
     reader.onload = () => {
       captions = reader.result;
-      //console.log(`Captions: ${captions}`)
     };
     // reset everything
     files = [];
     file = null;
-    fileInput.value = "";
+    //fileInput.value = "";
   }
 </script>
 

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte/internal";
 
-  import ClipBoard from "svelte-clipboard";
+  import PhraseSelector from "./PhraseSelector.svelte";
 
   import {
     parseCaptions,
@@ -32,9 +32,24 @@
   let transcriptDialog = null;
   let phrases = null;
   let transcript = null;
+  let fullstop : boolean = true;
+  let pause = 0;
+
+  let data = [
+    { country: "China", population: 1439324 },
+    { country: "India", population: 1380004 },
+    { country: "United States of America", population: 331003 },
+    { country: "Indonesia", population: 273524 },
+    { country: "Pakistan", population: 220892 },
+    { country: "Brazil", population: 212559 },
+    { country: "Nigeria", population: 206140 },
+    { country: "Bangladesh", population: 164689 },
+    { country: "Russian Federation", population: 145934 },
+    { country: "Mexico", population: 128933 },
+  ];
 
   phrases = parseCaptions(captions);
-  transcript = convertToTranscript(phrases);
+  transcript = convertToTranscript(phrases, pause, fullstop);
 
   onMount(async () => {
     transcriptDialog = document.querySelector(".transcript-overview");
@@ -62,28 +77,39 @@
     console.log("Word doc button hit");
     downloadWordDoc("someFile.docx", transcript);
   }
+
+  function copyToClipBoard() {
+    const copyText = document.getElementById("usable-transcript");
+    navigator.clipboard.writeText(copyText.innerText);
+    alert(`Copied ${copyText.innerText.length} characters to clipboard`);
+  }
 </script>
 
 <sl-dialog label="transcript" class="transcript-overview">
-  {@html transcript}
+
+  <input type=checkbox id="fullstop-checkbox" 
+      bind:checked={fullstop}
+	  on:change={() => transcript = convertToTranscript(phrases, pause, fullstop)}
+  />
+  <label for="fullstop-checkbox">Paragraph ends with sentence end</label> 
+
+<PhraseSelector phrases={phrases} /> 
+
+  <h1>Transcript</h1>
+
+  <div id="usable-transcript">
+    {@html transcript}
+  </div>
 
   <h1>Captions</h1>
-  {captions}
 
-  <ClipBoard
+  {captions}
+  <sl-button
     slot="footer"
-    text={transcript}
-    let:copy
-    on:copy={() => {
-      alert("Copied to clipboard!");
-    }}
-  >
-    <sl-button
-      on:click|stopPropagation={copy}
-      on:keydown|stopPropagation={copy}
-      >HTML &gt; clipboard
-    </sl-button>
-  </ClipBoard>
+    on:click|stopPropagation={copyToClipBoard}
+    on:keydown|stopPropagation={copyToClipBoard}
+    >HTML &gt; clipboard
+  </sl-button>
 
   <!--
 	  <sl-button
