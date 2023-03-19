@@ -2,8 +2,10 @@
  * Entry point for usable-transcript
  */
 
+/// <reference path="../node_modules/svelte/types/runtime/index.d.ts" />
+
+import UsableTranscript from "./UsableTranscript.svelte";
 import { checkContext } from "./lib/CanvasSetup";
-import App from "./App.svelte";
 
 // extract some useful context from the URL and the DOM
 const context = checkContext();
@@ -28,7 +30,7 @@ if (SHOW_OBJECTS.includes(context["currentObject"])) {
   rightOfCrumbs.appendChild(div);
 
 
-  app = new App({
+  app = new UsableTranscript({
     target: div,
     props: { 
       editMode: context["editMode"],

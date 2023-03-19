@@ -8,24 +8,8 @@
 
   import { onMount } from "svelte/internal";
 
-  import { newPlot } from "plotly.js-dist-min";
-
   export let phrases;
 
-  // generate one array of y values per trace
-
-  const PAUSE_BINS = 50;
-/*  let trace1 = {
-    y: y0,
-    type: "box",
-  };
-
-  let trace2 = {
-    y: y1,
-    type: "box",
-  }; */
-
-//  let data = [trace1, trace2];
 
   onMount(async () => {
 	let durations = generateGraphData(phrases)

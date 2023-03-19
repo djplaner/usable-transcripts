@@ -7,6 +7,8 @@ import svelte from 'rollup-plugin-svelte';
 import css from 'rollup-plugin-css-only';
 import sveltePreprocess from 'svelte-preprocess';
 import MagicString from 'magic-string';
+import path from 'path';
+import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -21,7 +23,6 @@ export default [
 			file: 'dist/usable-transcripts.js'
 		},
 		plugins: [
-
 			svelte({
 				preprocess: sveltePreprocess({
 					sourceMap: !production,
@@ -34,6 +35,15 @@ export default [
 
 			css({
 				output: 'usable-transcripts.css'
+			}),
+			copy({
+				copyOnce: true,
+				targets: [
+					{
+						src: path.resolve(__dirname, 'node_modules/@shoelace-style/shoelace/dist/assets'),
+						dest: path.resolve(__dirname, 'dist/shoelace')
+					}
+				]
 			}),
 
 			// If you have external dependencies installed from
@@ -59,13 +69,13 @@ export default [
 			// instead of npm run dev), minify
 			production && terser(),
 
-//			metablock({ file: './meta.js' }),
+			//			metablock({ file: './meta.js' }),
 		],
 		watch: {
 			clearScreen: false
 		}
 	},
-		{
+	{
 		// userscript
 		input: 'src/main.ts',
 		output: {
@@ -75,7 +85,6 @@ export default [
 			file: 'dist/usable-transcripts.user.js'
 		},
 		plugins: [
-			resolve(),
 
 			svelte({
 				preprocess: sveltePreprocess({
@@ -89,7 +98,16 @@ export default [
 
 			css({
 				output: 'usable-transcripts.css'
-			}), 
+			}),
+			copy({
+				copyOnce: true,
+				targets: [
+					{
+						src: path.resolve(__dirname, 'node_modules/@shoelace-style/shoelace/dist/assets'),
+						dest: path.resolve(__dirname, 'dist/shoelace')
+					}
+				]
+			}),
 
 			// rollup-plugin-tampermonkey-css
 			((options = {}) => ({

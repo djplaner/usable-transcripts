@@ -1,7 +1,8 @@
 import { parseSubs } from "frazy-parser";
 
-import { Document, Packer, Paragraph, TextRun } from "docx";
-import { saveAs } from "file-saver";
+
+//import { Document, Packer, Paragraph, TextRun } from "docx";
+//import { saveAs } from "file-saver";
 
 /**
  * @function convertToTranscript
@@ -39,6 +40,8 @@ export function convertToTranscript(
   paragraphPause = 0,
   fullstop = false
 ) {
+
+	console.log("--------------- convertTOTranscript")
   let transcript = "<p>";
 
   phrases.forEach((phrase) => {
@@ -93,7 +96,7 @@ function calculatePauseDurations(phrases) {
  * @function downloadWordDoc
  * @description Download the transcript as a Word document
  */
-export function downloadWordDoc(fileName, transcript) {
+/*export function downloadWordDoc(fileName, transcript) {
   let doc = new Document({
     sections: [
       {
@@ -120,7 +123,7 @@ export function downloadWordDoc(fileName, transcript) {
   console.log(doc);
 
   saveDocumentToFile(doc, fileName);
-}
+} */
 
 async function saveDocumentToFile(doc, fileName) {
   // Create new instance of Packer for the docx module
@@ -137,9 +140,9 @@ async function saveDocumentToFile(doc, fileName) {
   // Create a Blob containing the Document instance and the mimeType
   //Packer.toBlob(doc)
 
-  const docblob = await Packer.toBlob(doc);
+//  const docblob = await Packer.toBlob(doc);
   console.log("blob generated");
-  console.log(docblob);
+//  console.log(docblob);
   /*  Packer.toBase64String(doc)
     .then((blob) => {
       console.log("generated blob");
