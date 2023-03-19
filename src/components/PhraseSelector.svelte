@@ -6,51 +6,83 @@
    * showing each duration and the number of phrases of that duration
    */
 
-  import { Plotly } from "plotly.js-dist-min";
+  import { onMount } from "svelte/internal";
+
+  import { newPlot } from "plotly.js-dist-min";
 
   export let phrases;
 
-  const PAUSE_BINS = 100; // define the number of intervals to divide the pause durations into
-  const WIDTH = 800;
-  const HEIGHT = 600;
-  const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-  const innerHeight = HEIGHT - margin.top - margin.bottom;
-  const innerWidth = WIDTH - margin.left - margin.right;
-  const BAR_WIDTH = innerWidth / PAUSE_BINS;
-  const BAR_PADDING = 2;
+  // generate one array of y values per trace
 
-  var y0 = [];
-  var y1 = [];
-  for (var i = 0; i < 50; i++) {
-    y0[i] = Math.random();
-    y1[i] = Math.random() + 1;
-  }
-
-  var trace1 = {
+  const PAUSE_BINS = 50;
+/*  let trace1 = {
     y: y0,
     type: "box",
   };
 
-  var trace2 = {
+  let trace2 = {
     y: y1,
     type: "box",
-  };
+  }; */
 
-  var data = [trace1, trace2];
+//  let data = [trace1, trace2];
 
-  // Plotly.newPlot("chart", data);
+  onMount(async () => {
+	let durations = generateGraphData(phrases)
+	let data = [
+		{
+			x:durations,
+			type: "histogram",
+		}
+	];
+	let layout = {
+		title: "Pause Durations",
+		xaxis: {
+			title: "Pause Duration (seconds)",
+		},
+		yaxis: {
+			title: "Phrase Count",
+		},
+//		"boxpoints": "all"
+	};
 
-//  let graphData;
+	newPlot("chart", data, layout);
+  });
 
-/*  function generateGraphData(phrases) {
+  //  let graphData;
+
+  function generateGraphData(phrases) {
     let data = [];
+	let staticBins = [ 
+		{ min: 0, max: 0.25, phraseCount: 0 },
+		{ min: 0.25, max: 0.5, phraseCount: 0 },
+		{ min: 0.5, max: 0.75, phraseCount: 0 },
+		{ min: 0.75, max: 1, phraseCount: 0 },
+		{ min: 1, max: 1.5, phraseCount: 0 },
+		{ min: 1.5, max: 2, phraseCount: 0 },
+		{ min: 2, max: 3, phraseCount: 0 },
+		{ min: 3, max: 4, phraseCount: 0 },
+		{ min: 5, max: 10000, phraseCount: 0 },
+	]
     let pauseDurations = phrases.map((phrase) => phrase.pause);
+
+	// loop thru pauseDurations and update the count in staticBins
+	pauseDurations.forEach((duration) => {
+		staticBins.forEach((bin) => {
+			if (duration >= bin.min && duration < bin.max) {
+				bin.phraseCount++;
+			}
+		})
+	});
+
+	return staticBins.map((bin) => bin.phraseCount);
+
     let uniqueDurations = [...new Set(pauseDurations)];
     uniqueDurations.forEach((duration) => {
       let phraseCount = pauseDurations.filter((d) => d === duration).length;
       data.push({ pause: duration, phraseCount: phraseCount });
     });
-    // sort uniqueDurations into ascending order on pause
+    // sort uniquemaiDurations into ascending order on pause
     data.sort((a, b) => a.pause - b.pause);
     // get the min and max pause durations
     let minPause = Math.min.apply(null, pauseDurations);
@@ -78,9 +110,15 @@
     }
     //	return intervals;
 
-    return data;
+	// remove the data[0] element
+	data.shift()
 
-  } */ 
+	let intervalsData = intervals.map((d) => (parseFloat(d.label)*10));
+	return intervalsData;
+
+//    return data; 
+
+  } 
 </script>
 
 <div id="chart" />
@@ -145,6 +183,5 @@
         height={yScale.bandwidth()}
       />
     {/each} -->
-
 <style>
 </style>

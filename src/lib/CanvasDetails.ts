@@ -20,6 +20,7 @@ export class CanvasDetails {
   private baseApiUrl: string;
   //  private courseId: number;
   private finishedCallBack: Function;
+
   //  private calendar: UniversityDateCalendar;
 
   /**
