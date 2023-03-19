@@ -39,6 +39,7 @@
     "docx": "^7.8.2",
     "file": "^0.2.2",
     "file-saver": "^2.0.5",
-    "frazy-parser": "^2.9.1"
+    "frazy-parser": "^2.9.1",
+    "plotly.js-dist-min": "^2.20.0"
   }
 }
